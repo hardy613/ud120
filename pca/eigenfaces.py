@@ -22,7 +22,6 @@ from time import time
 import logging
 import pylab as pl
 import numpy as np
-
 from sklearn.cross_validation import train_test_split
 from sklearn.datasets import fetch_lfw_people
 from sklearn.grid_search import GridSearchCV
@@ -66,8 +65,13 @@ X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.25, random
 ###############################################################################
 # Compute a PCA (eigenfaces) on the face dataset (treated as unlabeled
 # dataset): unsupervised feature extraction / dimensionality reduction
+# n_components = 10
+# n_components = 15
+# n_components = 25
+# n_components = 50
+# n_components = 100
 n_components = 150
-
+# n_components = 250
 print "Extracting the top %d eigenfaces from %d faces" % (n_components, X_train.shape[0])
 t0 = time()
 pca = RandomizedPCA(n_components=n_components, whiten=True).fit(X_train)
@@ -80,7 +84,7 @@ t0 = time()
 X_train_pca = pca.transform(X_train)
 X_test_pca = pca.transform(X_test)
 print "done in %0.3fs" % (time() - t0)
-
+print "explained_variance_ratio_:", pca.explained_variance_ratio_
 
 ###############################################################################
 # Train a SVM classification model

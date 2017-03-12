@@ -3,6 +3,7 @@
 import matplotlib.pyplot as plt
 from prep_terrain_data import makeTerrainData
 from class_vis import prettyPicture
+from time import time
 
 features_train, labels_train, features_test, labels_test = makeTerrainData()
 
@@ -27,14 +28,36 @@ plt.ylabel("grade")
 plt.show()
 ################################################################################
 
+from sklearn.neighbors import KNeighborsClassifier
+
+clf = KNeighborsClassifier(n_neighbors=10, weights='distance')
+
+## fit
+clf_fit_time = time()
+
+clf.fit(features_train, labels_train)
+
+print "training time:", round(time()-clf_fit_time, 3), "s"
+
+## prediction
+clf_predict_time = time()
+
+prediction = clf.predict(features_test)
+
+print "prediction time:", round(time()-clf_predict_time, 3), "s"
+
+## score
+clf_score_time = time()
+
+accuracy = clf.score(features_test, labels_test)
+
+print "score time:", round(time()-clf_score_time, 3), "s"
+
+## accuracy
+print "accuracy:", accuracy ## 0.94
 
 ### your code here!  name your classifier object clf if you want the 
 ### visualization code (prettyPicture) to show you the decision boundary
-
-
-
-
-
 
 
 
